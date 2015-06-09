@@ -45,14 +45,24 @@ class Sequence(object):
 
 class Amphipathic(object):
 
-    def __init__(self, sequence):
-        self.sequence = sequence
-
-    def verify(self):
+    @classmethod
+    def calculate_index(cls, struct):
         pass
 
+    @classmethod
+    def index_secuence(cls, struct):
+        struct['index'] = cls.calculate_index(struct)
+        print struct
 
-def index(amino_sequence):
+    @classmethod
+    def index_secondary(cls, seq, with_power):
+        self.with_power = with_power
+        map(cls.index_secuence, seq.resume_secondary())
+
+
+def index(amino_sequence, with_power=False):
     seq = Sequence(amino_sequence)
-    print seq.secondary_structure()
+    seq.resume_secondary()
+    Amphipathic.index_secondary(seq, with_power=with_power)
     return seq.resume_secondary()
+
