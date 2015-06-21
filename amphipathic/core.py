@@ -1,45 +1,62 @@
 import requests
 from bs4 import BeautifulSoup
 import re
+import warnings
+from Bio import Seq, BiopythonWarning
 
 
 class Sequence(object):
 
     def __init__(self, string):
-        self.primary = string
+        string = string.lower()
+        if self.is_nucleotide(string):
+            self.nucleotide = string
+            warnings.simplefilter('ignore', BiopythonWarning)
+            string = Seq.translate(string).lower()
+        self.primary = string.split('*')
+
+    def is_nucleotide(self, string):
+        return all(map(lambda p: p in ['a', 't', 'c', 'g'], string))
+
+    def obtain_structure(self, params):
+        primary, secondary = params
+        structure = []
+        elements = map(lambda m: m.group(0),
+                       re.finditer(r"(\w)\1*", secondary))
+        idx = 0
+        for e in elements:
+            s = {'type': e[0],
+                 'begin': idx,
+                 'end': idx + len(e),
+                 'seq': primary[idx:idx + len(e)]}
+            structure.append(s)
+            idx += len(e)
+        return structure
 
     def resume_secondary(self):
         if not hasattr(self, 'structure'):
             self.secondary_structure()
-            self.structure = []
-            elements = map(lambda m: m.group(0),
-                           re.finditer(r"(\w)\1*", self.secondary))
-            idx = 0
-            for e in elements:
-                s = {'type': e[0],
-                     'begin': idx,
-                     'end': idx + len(e),
-                     'seq': self.primary[idx:idx + len(e)]}
-                self.structure.append(s)
-                idx += len(e)
-        return self.structure
+            self.structures = map(self.obtain_structure,
+                                  zip(self.primary, self.secondary))
+            self.structures = filter(lambda s: s, self.structures)
+        return self.structures
 
-    def obtain_secondary(self):
+    def obtain_secondary(self, primary):
         # It uses the GOR4 service to estimate the secondary structure.
         data = {
             'title': '',
-            'notice': self.primary,
-            'ali_width': len(self.primary)
+            'notice': primary,
+            'ali_width': len(primary)
         }
         html = BeautifulSoup(requests.post(
             'https://npsa-prabi.ibcp.fr/cgi-bin/secpred_gor4.pl',
             data).text)
-        self.secondary = ''.join(map(lambda f: f.text,
-                                     html.select('code font')))
+        return ''.join(map(lambda f: f.text,
+                           html.select('code font')))
 
     def secondary_structure(self):
         if not hasattr(self, 'secondary'):
-            self.obtain_secondary()
+            self.secondary = map(self.obtain_secondary, self.primary)
         return self.secondary
 
 
@@ -90,16 +107,17 @@ class Amphipathic(object):
     @classmethod
     def index_secuence(cls, struct):
         struct['index'] = cls.calculate_index(struct)
-        print struct
 
     @classmethod
     def index_secondary(cls, seq, with_power):
-        # self.with_power = with_power
-        map(cls.index_secuence, seq.resume_secondary())
+        cls.with_power = with_power
+        index_protein = lambda protein: map(cls.index_secuence, protein)
+        map(index_protein,
+            seq.resume_secondary())
 
 
-def index(amino_sequence, with_power=False):
-    seq = Sequence(amino_sequence)
+def index(sequence, with_power=False):
+    seq = Sequence(sequence)
     seq.resume_secondary()
     Amphipathic.index_secondary(seq, with_power=with_power)
     return seq.resume_secondary()
