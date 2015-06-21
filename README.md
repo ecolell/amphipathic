@@ -13,7 +13,7 @@ Requirements
 
 If you want to use this library on any GNU/Linux or OSX system you just need to execute:
 
-    $ pip install noaaclass
+    $ pip install amphipathic
 
 
 If you want to collaborate with this library, you should download the [github repository](https://github.com/ecolell/amphipathic) and execute:
