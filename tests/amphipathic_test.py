@@ -30,8 +30,13 @@ class TestNoaaclass(unittest.TestCase):
         ]
 
     def test_amphipathic_index(self):
-        for seq in self.sequences[0:1]:
+        resume = map(amphipathic.index, self.sequences)
+        fil = lambda seq: map(lambda prot:
+                              filter(lambda s:
+                                     s['amphipathic']['index'] > 2.5,
+                                     prot),
+                              seq)
+        for seq in map(fil, resume):
             print "---"
-            resume = amphipathic.index(seq)
-            print resume
+            print seq
             # TODO: Should assert Equals to a list of results

@@ -3,6 +3,8 @@ from bs4 import BeautifulSoup
 import re
 import warnings
 from Bio import Seq, BiopythonWarning
+from math import cos, sin
+import itertools
 
 
 class Sequence(object):
@@ -34,7 +36,7 @@ class Sequence(object):
         return structure
 
     def resume_secondary(self):
-        if not hasattr(self, 'structure'):
+        if not hasattr(self, 'structures'):
             self.secondary_structure()
             self.structures = map(self.obtain_structure,
                                   zip(self.primary, self.secondary))
@@ -96,24 +98,56 @@ class Amphipathic(object):
         pass
 
     @classmethod
+    def partial_sum(cls, amph, mean, coeficient):
+        sum1 = lambda (i, h): (h - mean) * cos((i - 1) * coeficient * FGR)
+        sum2 = lambda (i, h): (h - mean) * sin((i - 1) * coeficient * FGR)
+        sum1 = sum(map(sum1, enumerate(amph)))
+        sum2 = sum(map(sum2, enumerate(amph)))
+        return sum1 ** 2 + sum2 ** 2
+
+    @classmethod
+    def total_sum_norm(cls, h, mean, begin, end, step):
+        diff = end - begin
+        m1 = 1. / (diff * FGR)
+        f1 = ((end * FGR - begin * FGR) / diff * FGR) / 2.  # TODO: Remove FGR
+        sumparc1 = cls.partial_sum(h, mean, begin)
+        sumparc2 = sum(map(lambda angle:
+                           2 * cls.partial_sum(h, mean, angle),
+                           range(begin, end, step)))
+        sumparc3 = cls.partial_sum(h, mean, end)
+        sumtot = sumparc1 + sumparc2 + sumparc3
+        return m1 * (f1 * sumtot)
+
+    @classmethod
     def calculate_index(cls, struct):
         angles = {
+            'c': (0, 1),
             'e': (100, 160),
             'h': (80, 120),
         }
+        seq = struct['seq']
+        amount = len(seq) if seq else 1.
+        mean = sum(map(lambda aa: hidrophobic[aa], seq)) / amount
+        h = map(lambda aa: hidrophobic[aa], seq)
+        begin, end = angles[struct['type']]
         step = 1  # 1 degree by step
-        pass
+        num = cls.total_sum_norm(h, mean, begin, end, step)
+        den = cls.total_sum_norm(h, mean, 1, 180, 1)
+        ai = num / (den if den != 0 else 1)
+        return ai, mean
 
     @classmethod
     def index_secuence(cls, struct):
-        struct['index'] = cls.calculate_index(struct)
+        amph = {}
+        amph['index'], amph['mean'] = cls.calculate_index(struct)
+        struct.update({'amphipathic': amph})
+        return struct
 
     @classmethod
     def index_secondary(cls, seq, with_power):
         cls.with_power = with_power
         index_protein = lambda protein: map(cls.index_secuence, protein)
-        map(index_protein,
-            seq.resume_secondary())
+        map(index_protein, seq.resume_secondary())
 
 
 def index(sequence, with_power=False):
