@@ -97,6 +97,15 @@ And the output:
 ]]
 ```
 
+Last, it also accept a polyprotein sequence. When working with aminoacid it detect the '*' character as a stop signal:
+
+```python
+import amphipathic
+resume = amphipathic.index('NLYIQWLKDG*GPSSGRPPPS') 
+print resume
+```
+
+
 Questions?
 ----------
 
