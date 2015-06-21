@@ -121,7 +121,7 @@ class Amphipathic(object):
     @classmethod
     def calculate_index(cls, struct):
         angles = {
-            'c': (0, 1),
+            'c': (1, 180),
             'e': (100, 160),
             'h': (80, 120),
         }
