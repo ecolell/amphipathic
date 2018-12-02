@@ -17,13 +17,15 @@ class Sequence(object):
         self.primary = string.split('*')
 
     def is_nucleotide(self, string):
-        return all(map(lambda p: p in ['a', 't', 'c', 'g'], string))
+        return all([p in ['a', 't', 'c', 'g'] for p in string])
 
     def obtain_structure(self, params):
         primary, secondary = params
         structure = []
-        elements = map(lambda m: m.group(0),
-                       re.finditer(r"(\w)\1*", secondary))
+        elements = [
+            m.group(0)
+            for m in re.finditer(r"(\w)\1*", secondary)
+        ]
         idx = 0
         for e in elements:
             s = {'type': e[0],
@@ -37,9 +39,11 @@ class Sequence(object):
     def resume_secondary(self):
         if not hasattr(self, 'structures'):
             self.secondary_structure()
-            self.structures = map(self.obtain_structure,
-                                  zip(self.primary, self.secondary))
-            self.structures = filter(lambda s: s, self.structures)
+            self.structures = [
+                self.obtain_structure(p)
+                for p in zip(self.primary, self.secondary)
+            ]
+            self.structures = [s for s in self.structures if s]
         return self.structures
 
     def obtain_secondary(self, primary):
@@ -51,13 +55,18 @@ class Sequence(object):
         }
         html = BeautifulSoup(requests.post(
             'https://npsa-prabi.ibcp.fr/cgi-bin/secpred_gor4.pl',
-            data).text)
-        return ''.join(map(lambda f: f.text,
-                           html.select('code font')))
+            data).text, 'html.parser')
+        return ''.join([
+            f.text
+            for f in html.select('code font')
+        ])
 
     def secondary_structure(self):
         if not hasattr(self, 'secondary'):
-            self.secondary = map(self.obtain_secondary, self.primary)
+            self.secondary = [
+                self.obtain_secondary(p)
+                for p in self.primary
+            ]
         return self.secondary
 
 
@@ -116,9 +125,10 @@ class Amphipathic(object):
         m1 = 1. / (diff * FGR)
         f1 = ((end * FGR - begin * FGR) / diff * FGR) / 2.  # TODO: Remove FGR
         sumparc1 = cls.partial_sum(h, mean, begin)
-        sumparc2 = sum(map(lambda angle:
-                           2 * cls.partial_sum(h, mean, angle),
-                           range(begin, end, step)))
+        sumparc2 = sum([
+            2 * cls.partial_sum(h, mean, angle)
+            for angle in range(begin, end, step)
+        ])
         sumparc3 = cls.partial_sum(h, mean, end)
         sumtot = sumparc1 + sumparc2 + sumparc3
         return m1 * (f1 * sumtot)
@@ -132,8 +142,8 @@ class Amphipathic(object):
         }
         seq = struct['seq']
         amount = len(seq) if seq else 1.
-        mean = sum(map(lambda aa: hidrophobic[aa], seq)) / amount
-        h = map(lambda aa: hidrophobic[aa], seq)
+        mean = sum([hidrophobic[aa] for aa in seq]) / amount
+        h = [hidrophobic[aa] for aa in seq]
         begin, end = angles[struct['type']]
         step = 1  # 1 degree by step
         num = cls.total_sum_norm(h, mean, begin, end, step)
@@ -151,8 +161,13 @@ class Amphipathic(object):
     @classmethod
     def index_secondary(cls, seq, with_power):
         cls.with_power = with_power
-        index_protein = lambda protein: map(cls.index_secuence, protein)
-        map(index_protein, seq.resume_secondary())
+        [
+            [
+                cls.index_secuence(aa)
+                for aa in protein
+            ]
+            for protein in seq.resume_secondary()
+        ]
 
 
 def index(sequence, with_power=False):
