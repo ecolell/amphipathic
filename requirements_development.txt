@@ -1,6 +1,6 @@
 -r requirements.txt
 
-coveralls==0.3
+coveralls==1.5.1
 ipython==2.0.0
 ipdb==0.8
 vim-debug==1.5.4
