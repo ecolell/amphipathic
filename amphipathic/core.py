@@ -97,11 +97,17 @@ class Amphipathic(object):
         pass
 
     @classmethod
-    def partial_sum(cls, amph, mean, coeficient):
-        sum1 = lambda (i, h): (h - mean) * cos((i - 1) * coeficient * FGR)
-        sum2 = lambda (i, h): (h - mean) * sin((i - 1) * coeficient * FGR)
-        sum1 = sum(map(sum1, enumerate(amph)))
-        sum2 = sum(map(sum2, enumerate(amph)))
+    def apply_func(cls, func, i, h, mean, coefficient):
+        return (h - mean) * func((i - 1) * coefficient * FGR)
+
+    @classmethod
+    def partial_sum(cls, amph, mean, coefficient):
+        sum1 = sum([
+            cls.apply_func(cos, i, h, mean, coefficient) for i,h in enumerate(amph)
+        ])
+        sum2 = sum([
+            cls.apply_func(sin, i, h, mean, coefficient) for i, h in enumerate(amph)
+        ])
         return sum1 ** 2 + sum2 ** 2
 
     @classmethod
