@@ -37,7 +37,6 @@ def test_amphipathic_index_2(sequence2):
     print(filter(lambda protein: protein, seq))
 
 
-@pytest.mark.skip
 def test_amphipathic_index_3(sequence3):
     resume = amphipathic.index(sequence3)
     for prot in resume:
