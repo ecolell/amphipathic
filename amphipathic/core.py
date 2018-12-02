@@ -4,7 +4,6 @@ import re
 import warnings
 from Bio import Seq, BiopythonWarning
 from math import cos, sin
-import itertools
 
 
 class Sequence(object):

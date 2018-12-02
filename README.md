@@ -3,7 +3,6 @@ amphipathic
 ===========
 
 [![License](https://img.shields.io/pypi/l/amphipathic.svg)](https://raw.githubusercontent.com/ecolell/amphipathic/master/LICENSE) [![Downloads](https://img.shields.io/pypi/dm/amphipathic.svg)](https://pypi.python.org/pypi/amphipathic/) [![Build Status](https://travis-ci.org/ecolell/amphipathic.svg?branch=master)](https://travis-ci.org/ecolell/amphipathic) [![Coverage Status](https://coveralls.io/repos/ecolell/amphipathic/badge.png)](https://coveralls.io/r/ecolell/amphipathic) [![Code Health](https://landscape.io/github/ecolell/amphipathic/master/landscape.png)](https://landscape.io/github/ecolell/amphipathic/master) [![PyPI version](https://badge.fury.io/py/amphipathic.svg)](http://badge.fury.io/py/amphipathic)
-[![Stories in Ready](https://badge.waffle.io/ecolell/amphipathic.png?label=ready&title=Ready)](https://waffle.io/ecolell/amphipathic)
 
 This is a library to evaluate an aminoacid sequence and determine an amphipathic index for each alpha helix or beta sheet.
 

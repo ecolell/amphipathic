@@ -5,10 +5,9 @@ python:
   - "2.7"
   - "3.2"
   - "3.3"
-# command to install dependencies
 install:
-  - "make ubuntu deploy"
-# command to run tests
-script: "make test-coverage-travis-ci" #nosetests
+  - pip install -r requirements_development.txt
+script:
+  - py.test
 after_success:
-  - "make test-coveralls"
+  - coveralls

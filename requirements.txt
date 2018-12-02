@@ -1,6 +1,5 @@
-gevent==1.0.1
 requests==2.20.0
-beautifulsoup4==4.3.2
+beautifulsoup4==4.6.3
 pyOpenSSL==17.5.0
 ndg_httpsclient==0.4.0
 pyasn1
