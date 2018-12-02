@@ -1,1 +1,1 @@
-from core import *
+from amphipathic.core import index
