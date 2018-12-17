@@ -1,6 +1,6 @@
 requests~=2.20.1
 beautifulsoup4==4.6.3
-pyOpenSSL==17.5.0
+pyOpenSSL~=18.0.0
 ndg_httpsclient==0.4.0
 pyasn1
 biopython==1.65
