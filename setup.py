@@ -6,7 +6,7 @@ import subprocess
 from setuptools.command import easy_install
 
 
-__version__ = '0.2.0'
+__version__ = '0.2.1'
 
 
 def parse_requirements(filename):
