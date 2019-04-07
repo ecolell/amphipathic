@@ -1,6 +1,7 @@
+# -*- coding: utf-8 -*- #
+"""Secondary Structure Services."""
 from __future__ import unicode_literals
-from __future__ import print_function
-import pytest
+
 
 import amphipathic
 

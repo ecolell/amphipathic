@@ -1,9 +1,12 @@
-import requests
-from bs4 import BeautifulSoup
+# -*- coding: utf-8 -*- #
+"""Core Service."""
+from __future__ import unicode_literals
+
 import re
 import warnings
 from Bio import Seq, BiopythonWarning
 from math import cos, sin
+from amphipathic.secondary_structure import jpred
 
 
 class Sequence(object):
@@ -46,26 +49,14 @@ class Sequence(object):
             self.structures = [s for s in self.structures if s]
         return self.structures
 
-    def obtain_secondary(self, primary):
-        # It uses the GOR4 service to estimate the secondary structure.
-        data = {
-            'title': '',
-            'notice': primary,
-            'ali_width': len(primary)
-        }
-        html = BeautifulSoup(requests.post(
-            'https://npsa-prabi.ibcp.fr/cgi-bin/secpred_gor4.pl',
-            data).text, 'html.parser')
-        return ''.join([
-            f.text
-            for f in html.select('code font')
-        ])
+    def obtain_secondary(self, seq):
+        return jpred(seq)
 
     def secondary_structure(self):
         if not hasattr(self, 'secondary'):
             self.secondary = [
-                self.obtain_secondary(p)
-                for p in self.primary
+                self.obtain_secondary(seq)
+                for seq in self.primary
             ]
         return self.secondary
 
