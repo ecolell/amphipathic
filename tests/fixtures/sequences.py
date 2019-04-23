@@ -8,10 +8,7 @@ def fixture_sequence_1():
 
 @pytest.fixture(name="sequence2")
 def fixture_sequence_2():
-    return 'MALPVTALLLPLALLLHAARPSQFRVSPLDRTWNLGETVELKCQVLLSNPTSGCSWLFQPRGA'\
-           'AASPTFLLYLSQNKPKAAEGLDTQRFSGKRLGDTFVLTLSDFRRENEGCYFCSALSNSIMYFS'\
-           'HFVPVFLPAKPTTTPAPRPPTPAPTIASQPLSLRPEACRPAAGGAVHTRGLDFACDIYIWAPL'\
-           'AGTCGVLLLSLVITLYCNHRNRRRVCKCPRPVVKSGDKPSLSARYV'
+    return 'MALPVTALLLPLALLLHAARPSQFRVSPLDRTWNLGETVELKCQVLLSNPTSGCSWLFQPRGA'
 
 
 @pytest.fixture(name="sequence3")
@@ -20,15 +17,4 @@ def fixture_sequence_3():
            'cgctgccaagttgtccaagttccttgattggatcaaatccaagatcatcccggagctcagagag'\
            'agagcggagtttgttaagaatcttaggcagcttcctcttctcgaggcccagatcaccactttgg'\
            'agcactccaaccctaatcaggagacccaagaacagcttttctcgaacgtccaatacctggcaca'\
-           'ccactgtaggaagaacgctccgctctatgcagcggaagcccggagagttttcgcactagagaaa'\
-           'cgcgtccttggagcaatgcagttcaagaccaagaatcgaattgaacctgtttgctgtttgatcc'\
-           'atggaacgccgggcactggtaaatcacttgccacgactattattggcaggaagatcgctgagta'\
-           'cgagaatagcggggtctatagtttgccacctgacccagaccactttgatggctacgccgagcag'\
-           'gcagttgtaattatggatgatctgcatcagaacccagacggcaaagatatgagcttgttttgtc'\
-           'agatggtttccaccacccccttcgtggttccgatggctgctctcgaggataaaggtagactttt'\
-           'cacctccaaatatgtgctggcctcaacaaatgccaaccatatccatccagttacagtcgccgat'\
-           'ggaaaggcccttcagcgccgcttccacttcgacacggacattgaattgatggatggcttcgtga'\
-           'aaaacgggaaactagatattcagagggcaaccgaggcatgtgaagactgttctccgatcaactt'\
-           'tcagaagtgcatgcctctcatttgtggtaaggctctccagctccgtagcaagaagggtgatggc'\
-           'atgagatacagcattgataccatgatcacagagatgcgcagggagtcagcccgacgctataata'\
-           'ttgggaatgttatagaggcactcttccaa'
+           'ccactgtaggaagaacgctccgctctatgcagcggaagcccggagagttttcgcactagagaaa'

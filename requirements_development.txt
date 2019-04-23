@@ -8,4 +8,5 @@ vim-debug==1.5.4
 isort==3.9.0
 pytest==4.0.1
 pytest-cov==2.6.0
+pytest-mock
 twine==1.12.1

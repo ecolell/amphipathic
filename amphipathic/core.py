@@ -6,62 +6,62 @@ import re
 import warnings
 from Bio import Seq, BiopythonWarning
 from math import cos, sin
-from amphipathic.secondary_structure import jpred
+from amphipathic.services import secondary_structure
+
+
+def is_nucleotide(characters):
+    return all([p in ['a', 't', 'c', 'g'] for p in characters])
+
+
+def obtain_structure(params):
+    primary, secondary = params
+    structure = []
+    elements = [
+        m.group(0)
+        for m in re.finditer(r"(\w)\1*", secondary)
+    ]
+    idx = 0
+    for e in elements:
+        s = {'type': e[0],
+             'begin': idx,
+             'end': idx + len(e),
+             'seq': primary[idx:idx + len(e)]}
+        structure.append(s)
+        idx += len(e)
+    return structure
+
+
+def apply_secondary_structure(primary):
+    return [
+        secondary_structure.jpred(seq)
+        for seq in primary
+    ]
 
 
 class Sequence(object):
 
     def __init__(self, string):
         string = string.lower()
-        if self.is_nucleotide(string):
+        if is_nucleotide(string):
             self.nucleotide = string
             warnings.simplefilter('ignore', BiopythonWarning)
             string = Seq.translate(string).lower()
         self.primary = string.split('*')
-
-    def is_nucleotide(self, string):
-        return all([p in ['a', 't', 'c', 'g'] for p in string])
-
-    def obtain_structure(self, params):
-        primary, secondary = params
-        structure = []
-        elements = [
-            m.group(0)
-            for m in re.finditer(r"(\w)\1*", secondary)
-        ]
-        idx = 0
-        for e in elements:
-            s = {'type': e[0],
-                 'begin': idx,
-                 'end': idx + len(e),
-                 'seq': primary[idx:idx + len(e)]}
-            structure.append(s)
-            idx += len(e)
-        return structure
+        self.secondary = []
+        self.structures = []
 
     def resume_secondary(self):
-        if not hasattr(self, 'structures'):
-            self.secondary_structure()
+        if not self.structures:
+            self.secondary = apply_secondary_structure(self.primary)
             self.structures = [
-                self.obtain_structure(p)
+                obtain_structure(p)
                 for p in zip(self.primary, self.secondary)
             ]
             self.structures = [s for s in self.structures if s]
         return self.structures
 
-    def obtain_secondary(self, seq):
-        return jpred(seq)
 
-    def secondary_structure(self):
-        if not hasattr(self, 'secondary'):
-            self.secondary = [
-                self.obtain_secondary(seq)
-                for seq in self.primary
-            ]
-        return self.secondary
-
-
-hidrophobic = {
+hydrophobic = {
     'a':  0.22,
     'c':  4.07,
     'd': -3.08,
@@ -133,8 +133,8 @@ class Amphipathic(object):
         }
         seq = struct['seq']
         amount = len(seq) if seq else 1.
-        mean = sum([hidrophobic[aa] for aa in seq]) / amount
-        h = [hidrophobic[aa] for aa in seq]
+        mean = sum([hydrophobic[aa] for aa in seq]) / amount
+        h = [hydrophobic[aa] for aa in seq]
         begin, end = angles[struct['type']]
         step = 1  # 1 degree by step
         num = cls.total_sum_norm(h, mean, begin, end, step)
@@ -144,9 +144,13 @@ class Amphipathic(object):
 
     @classmethod
     def index_secuence(cls, struct):
-        amph = {}
-        amph['index'], amph['mean'] = cls.calculate_index(struct)
-        struct.update({'amphipathic': amph})
+        index, mean = cls.calculate_index(struct)
+        struct.update(dict(
+            amphipathic=dict(
+                index=index,
+                mean=mean
+            )
+        ))
         return struct
 
     @classmethod

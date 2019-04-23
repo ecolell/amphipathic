@@ -59,7 +59,7 @@ def jpred(seq):
         )
         if not matches:
             # The services doesn't accept the sequence.
-            return '.' * len(seq)
+            return 'c' * len(seq)
         job_link = matches.group(1)
         job_id = job_link.split('?')[1]
         url = 'http://www.compbio.dundee.ac.uk/jpred4/results/{job_id}/{job_id}.jnet'.format(job_id=job_id)
@@ -68,6 +68,6 @@ def jpred(seq):
             time.sleep(10)
             res = requests.get(url)
         data = res.content.decode('utf-8')
-        return data.split('\n')[1].replace('jnetpred:', '').replace(',', '').lower()
+        return data.split('\n')[1].replace('jnetpred:', '').replace(',', '').lower().replace('-', 'c')
     else:
         raise AmphipathicSecondaryStructureError('We cannot predict the secondary structure')
