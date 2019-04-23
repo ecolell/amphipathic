@@ -4,12 +4,11 @@ from __future__ import unicode_literals
 
 
 import amphipathic
-from amphipathic import core
 
 
 def test_amphipathic_index_1(sequence1, mocker):
-    mocker.patch.object(core, 'apply_secondary_structure')
-    core.apply_secondary_structure.return_value = [
+    mocker.patch.object(amphipathic, 'apply_secondary_structure')
+    amphipathic.apply_secondary_structure.return_value = [
         'ccceehhhcccccccccccc'
     ]
     resume = amphipathic.index(sequence1)
@@ -46,8 +45,8 @@ def test_amphipathic_index_1(sequence1, mocker):
 
 
 def test_amphipathic_index_2(sequence2, mocker):
-    mocker.patch.object(core, 'apply_secondary_structure')
-    core.apply_secondary_structure.return_value = [
+    mocker.patch.object(amphipathic, 'apply_secondary_structure')
+    amphipathic.apply_secondary_structure.return_value = [
         'ccchhhhhhhhhhhhhhhhccccceeccccccccccceeeeeeeeecccccccceeeeccccc'
     ]
     resume = amphipathic.index(sequence2)
@@ -118,8 +117,8 @@ def test_amphipathic_index_2(sequence2, mocker):
 
 
 def test_amphipathic_index_3(sequence3, mocker):
-    mocker.patch.object(core, 'apply_secondary_structure')
-    core.apply_secondary_structure.return_value = [
+    mocker.patch.object(amphipathic, 'apply_secondary_structure')
+    amphipathic.apply_secondary_structure.return_value = [
         'c',
         'ccc',
         'ccc',
