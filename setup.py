@@ -49,6 +49,7 @@ setup(
                  'determine an amphipathic index for each alpha helix or '
                  'beta sheet.'),
     long_description=get_long_description(),
+    long_description_content_type="text/markdown",
     zip_safe=True,
     install_requires=requirements,
     classifiers=[
