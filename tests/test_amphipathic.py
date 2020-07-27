@@ -7,8 +7,8 @@ import amphipathic
 
 
 def test_amphipathic_index_0(sequence0, mocker):
-    mocker.patch.object(core, 'apply_secondary_structure')
-    core.apply_secondary_structure.return_value = [
+    mocker.patch.object(amphipathic, 'apply_secondary_structure')
+    amphipathic.apply_secondary_structure.return_value = [
         'ccceehhhcccccccccccc'
     ]
     resume = amphipathic.index(sequence0)
