@@ -99,13 +99,14 @@ def calculate_amphipathic_index(struct):
         'h': (80, 120),
     }
     seq = struct['seq']
-    amount = len(seq) if seq else 1.
-    mean = sum([hydrophobic.table[aa] for aa in seq]) / amount
-    h = [hydrophobic.table[aa] for aa in seq]
+    hydro_scores = [hydrophobic.table[aa] for aa in seq if aa in hydrophobic.table]
+    amount = len(hydro_scores)
+    amount = amount if amount > 0 else 1
+    mean = sum(hydro_scores) / amount
     begin, end = angles[struct['type']]
     step = 1  # 1 degree by step
-    num = total_sum_norm(h, mean, begin, end, step)
-    den = total_sum_norm(h, mean, 1, 180, 1)
+    num = total_sum_norm(hydro_scores, mean, begin, end, step)
+    den = total_sum_norm(hydro_scores, mean, 1, 180, 1)
     ai = num / (den if den != 0 else 1)
     return ai, mean
 

@@ -1,5 +1,9 @@
 import pytest
 
+@pytest.fixture(name="sequence0")
+def fixture_sequence_0():
+    return 'NLYIQWLXDGGPSSGRPPPS'
+
 
 @pytest.fixture(name="sequence1")
 def fixture_sequence_1():

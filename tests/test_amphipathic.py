@@ -7,6 +7,44 @@ import amphipathic
 from amphipathic import core
 
 
+def test_amphipathic_index_0(sequence0, mocker):
+    mocker.patch.object(core, 'apply_secondary_structure')
+    core.apply_secondary_structure.return_value = [
+        'ccceehhhcccccccccccc'
+    ]
+    resume = amphipathic.index(sequence0)
+    assert resume[0] == [
+        {
+            'amphipathic': {'index': 1.0, 'mean': 2.81},
+            'begin': 0,
+            'end': 3,
+            'seq': 'nly',
+            'type': 'c'
+        },
+        {
+            'amphipathic': {'index': 1.6242872515167734, 'mean': 0.9799999999999998},
+             'begin': 3,
+             'end': 5,
+             'seq': 'iq',
+             'type': 'e'
+        },
+        {
+            'amphipathic': {'index': 1.1841818371579635, 'mean': 3.35},
+             'begin': 5,
+             'end': 8,
+             'seq': 'wlx',
+             'type': 'h'
+        },
+        {
+            'amphipathic': {'index': 1.0, 'mean': -0.9941666666666668},
+            'begin': 8,
+            'end': 20,
+            'seq': 'dggpssgrppps',
+            'type': 'c'
+        }
+    ]
+
+
 def test_amphipathic_index_1(sequence1, mocker):
     mocker.patch.object(core, 'apply_secondary_structure')
     core.apply_secondary_structure.return_value = [
@@ -33,7 +71,7 @@ def test_amphipathic_index_1(sequence1, mocker):
             'begin': 5,
             'end': 8,
             'seq': 'wlk',
-            'amphipathic': {'index': 1.1550916234055335, 'mean': 1.22}
+            'amphipathic': {'index': 1.1550916234055337, 'mean': 1.22}
         },
         {
             'type': 'c',
@@ -105,7 +143,7 @@ def test_amphipathic_index_2(sequence2, mocker):
             'begin': 54,
             'end': 58,
             'seq': 'swlf',
-            'amphipathic': {'index': 0.6423054796591477, 'mean': 2.6725000000000003}
+            'amphipathic': {'index': 0.6423054796591475, 'mean': 2.6725000000000003}
         },
         {
             'type': 'c',
