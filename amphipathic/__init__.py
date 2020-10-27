@@ -67,7 +67,7 @@ FGR = 0.0174533
 
 
 def apply_func(func, i, h, mean, coefficient):
-    return (h - mean) * func((i - 1) * coefficient * FGR)
+    return (h - mean) * func(i * coefficient * FGR)
 
 
 def partial_sum(amph, mean, coefficient):
@@ -83,7 +83,7 @@ def partial_sum(amph, mean, coefficient):
 def total_sum_norm(h, mean, begin, end, step):
     diff = end - begin
     m1 = 1. / (diff * FGR)
-    f1 = ((end * FGR - begin * FGR) / diff * FGR) / 2.  # TODO: Remove FGR
+    f1 = ((end * FGR - begin * FGR) / diff * FGR) / 2.
     sumparc1 = partial_sum(h, mean, begin)
     sumparc2 = sum([
         2 * partial_sum(h, mean, angle)
