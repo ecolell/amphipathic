@@ -70,7 +70,7 @@ def test_amphipathic_index_1(sequence1, mocker):
             'begin': 5,
             'end': 8,
             'seq': 'wlk',
-            'amphipathic': {'index': 1.1550916234055335, 'mean': 1.22}
+            'amphipathic': {'index': 1.155091623405534, 'mean': 1.22}
         },
         {
             'type': 'c',
@@ -129,7 +129,7 @@ def test_amphipathic_index_2(sequence2, mocker):
             'begin': 37,
             'end': 46,
             'seq': 'tvelkcqvl',
-            'amphipathic': {'index': 0.9132957541599986, 'mean': 1.6855555555555555}
+            'amphipathic': {'index': 0.9132957541599984, 'mean': 1.6855555555555555}
         },
         {
             'type': 'c',
@@ -142,7 +142,7 @@ def test_amphipathic_index_2(sequence2, mocker):
             'begin': 54,
             'end': 58,
             'seq': 'swlf',
-            'amphipathic': {'index': 0.6423054796591477, 'mean': 2.6725000000000003}
+            'amphipathic': {'index': 0.6423054796591475, 'mean': 2.6725000000000003}
         },
         {
             'type': 'c',
