@@ -3,7 +3,20 @@ amphipathic
 
 [![License](https://img.shields.io/pypi/l/amphipathic.svg)](https://raw.githubusercontent.com/ecolell/amphipathic/master/LICENSE) [![Downloads](https://img.shields.io/pypi/dm/amphipathic.svg)](https://pypi.python.org/pypi/amphipathic/) [![Build Status](https://travis-ci.org/ecolell/amphipathic.svg?branch=master)](https://travis-ci.org/ecolell/amphipathic) [![Coverage Status](https://coveralls.io/repos/ecolell/amphipathic/badge.png)](https://coveralls.io/r/ecolell/amphipathic) [![Code Health](https://landscape.io/github/ecolell/amphipathic/master/landscape.png)](https://landscape.io/github/ecolell/amphipathic/master) [![PyPI version](https://badge.fury.io/py/amphipathic.svg)](http://badge.fury.io/py/amphipathic)
 
-This is a library to evaluate an aminoacid sequence and determine an amphipathic index for each alpha helix or beta sheet.
+This library can analyze an aminoacid sequence and gives a list of secondary structures with the respective hydrophobicity mean[1] and amphipathic index[1].
+
+When it is useful to calculate this measurements on a secondary structure?
+
+By looking to this measurements for alpha helix, you can test some hiphotesis of:
+
+1. the context of a **globular soluble protein**:
+    - **hydrofobic core**, it will be no amphipathic and hydrophobic
+    - **interface between core and the superficial region**, it will be amphiphatic
+    - **superficial region**, it will be no amphipathic and hydrophilic
+2. the interactions of a **trans-membrane protein**:
+    - **on lipids interaction**, it will be not amphipathic and hidrophobic
+    - **on multiple trans-membrane helix interacion** (homomeric or heteromeric), it will be amphipathic building like an *ionic channel*.
+
 
 Requirements
 ------------
@@ -29,7 +42,7 @@ To test all the project you should use the command:
 Example
 -------
 
-This library can analyze an aminoacid sequence and gives a list of secondary structures with the respective index: 
+This library can analyze an aminoacid sequence and gives a list of secondary structures with the respective hydrophobicity mean and amphipathic index.
 
 ```python
 import amphipathic
@@ -63,14 +76,6 @@ And the result should be:
      'amphipathic': {'index': 1.6242872515167746, 'mean': -1.34}}
 ]]
 ```
-
-Each block has specific information:
-
-  - `type` could be "c" (from coil), "e" (extended/beta sheet) or "h" (alpha helix).
-  - `mean` provides the hydrophobicity mean obtained using the aminoacids of the block through Hydrophobicity scales obtained from Table 4 (STA PRIFT **) Cornette et al.[1].
-  - `index` provides an amphipathic index adapted from Cornette et al.[1], first implemented into Pablo Daniel Ghiringhelli's PhD thesis.
-
-[1] Cornette, J. L., Cease, K. B., Margalit, H., Spouge, J. L., Berzofsky, J. A., & DeLisi, C. (1987). Hydrophobicity scales and computational techniques for detecting amphipathic structures in proteins. Journal of Molecular Biology, 195(3), 659–685. doi:10.1016/0022-2836(87)90189-6.
 
 It also accept a nucleotide sequence to perform the same analysis:
 
@@ -109,6 +114,13 @@ import amphipathic
 resume = amphipathic.index('NLYIQWLKDG*GPSSGRPPPS') 
 print resume
 ```
+
+
+Bibliography
+------------
+
+[1] Cornette, J. L., Cease, K. B., Margalit, H., Spouge, J. L., Berzofsky, J. A., & DeLisi, C. (1987). Hydrophobicity scales and computational techniques for detecting amphipathic structures in proteins. Journal of Molecular Biology, 195(3), 659–685. doi:10.1016/0022-2836(87)90189-6.
+[2] Ghiringhelli D (2002). Virus Junín: Clonado molecular y análisis estructural y funcional del RNA S y sus productos génicos, Facultad de Ciencias Exactas, Universidad Nacional de La Plata.
 
 
 Questions?
