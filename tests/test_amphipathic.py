@@ -6,6 +6,44 @@ from __future__ import unicode_literals
 import amphipathic
 
 
+def test_amphipathic_index_0(sequence0, mocker):
+    mocker.patch.object(amphipathic, 'apply_secondary_structure')
+    amphipathic.apply_secondary_structure.return_value = [
+        'ccceehhhcccccccccccc'
+    ]
+    resume = amphipathic.index(sequence0)
+    assert resume[0] == [
+        {
+            'amphipathic': {'index': 1.0, 'mean': 2.81},
+            'begin': 0,
+            'end': 3,
+            'seq': 'nly',
+            'type': 'c'
+        },
+        {
+            'amphipathic': {'index': 1.6242872515167734, 'mean': 0.9799999999999998},
+             'begin': 3,
+             'end': 5,
+             'seq': 'iq',
+             'type': 'e'
+        },
+        {
+            'amphipathic': {'index': 1.1841818371579635, 'mean': 3.35},
+             'begin': 5,
+             'end': 8,
+             'seq': 'wlx',
+             'type': 'h'
+        },
+        {
+            'amphipathic': {'index': 1.0, 'mean': -0.9941666666666668},
+            'begin': 8,
+            'end': 20,
+            'seq': 'dggpssgrppps',
+            'type': 'c'
+        }
+    ]
+
+
 def test_amphipathic_index_1(sequence1, mocker):
     mocker.patch.object(amphipathic, 'apply_secondary_structure')
     amphipathic.apply_secondary_structure.return_value = [
