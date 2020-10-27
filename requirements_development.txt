@@ -6,7 +6,9 @@ ipython==2.0.0
 ipdb==0.8
 vim-debug==1.5.4
 isort==3.9.0
-pytest==4.0.1
-pytest-cov==2.6.0
+pytest==4.0.1; python_version >= '2.6' and python_version < '3.5'
+pytest==6.1.1; python_version >= '3.6'
+pytest-cov==2.6.0; python_version == '2.6' or python_version=='2.7'
+pytest-cov==2.10.1; python_version >= '3.6'
 pytest-mock
 twine==1.12.1
