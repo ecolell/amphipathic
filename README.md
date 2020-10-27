@@ -65,9 +65,10 @@ And the result should be:
 ```
 
 Each block has specific information:
-`type` could be "c" (from coil), "e" (extended/beta sheet) or "h" (alpha helix).
-`mean` provides the hydrophobicity mean obtained using the aminoacids of the block through Hydrophobicity scales obtained from Table 4 (STAPRIFT **) Cornette et al.[1].
-`index` provides an amphipathic index adapted from Cornette et al.[1], first implemented into Pablo Daniel Ghiringhelli's PhD thesis.
+
+  - `type` could be "c" (from coil), "e" (extended/beta sheet) or "h" (alpha helix).
+  - `mean` provides the hydrophobicity mean obtained using the aminoacids of the block through Hydrophobicity scales obtained from Table 4 (STAPRIFT **) Cornette et al.[1].
+  - `index` provides an amphipathic index adapted from Cornette et al.[1], first implemented into Pablo Daniel Ghiringhelli's PhD thesis.
 
 [1] Cornette, J. L., Cease, K. B., Margalit, H., Spouge, J. L., Berzofsky, J. A., & DeLisi, C. (1987). Hydrophobicity scales and computational techniques for detecting amphipathic structures in proteins. Journal of Molecular Biology, 195(3), 659–685. doi:10.1016/0022-2836(87)90189-6.
 
