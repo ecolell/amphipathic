@@ -121,6 +121,11 @@ resume = amphipathic.index('NLYIQWLKDG*GPSSGRPPPS')
 print resume
 ```
 
+Usages
+------
+
+This library was used into [mistic2](https://mistic2.leloir.org.ar).
+
 
 Bibliography
 ------------
