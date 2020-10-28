@@ -7,7 +7,7 @@ This library can analyze an aminoacid sequence and gives a list of secondary str
 
 When it is useful to calculate this measurements on a secondary structure?
 
-By looking to this measurements for alpha helix, you can test some hiphotesis of:
+By looking into this measurements for an alpha helix, you can test some hiphotesis related with:
 
 1. the context of a **globular soluble protein**:
     - **hydrofobic core**, it will be no amphipathic and hydrophobic
