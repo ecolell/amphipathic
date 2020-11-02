@@ -12,5 +12,6 @@ pytest-cov==2.6.0; python_version == '2.6' or python_version=='2.7'
 pytest-cov==2.10.1; python_version >= '3.6'
 pytest-mock
 pytest-responses
+python-coveralls==2.9.3
 responses
 twine==1.12.1

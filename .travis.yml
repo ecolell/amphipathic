@@ -9,6 +9,6 @@ python:
 install:
   - pip install -r requirements_development.txt
 script:
-  - py.test . -v --cov-report term-missing
+  - py.test . --pep8 coveralls -v --cov coveralls --cov-report term-missing --cov-report term-missing
 after_success:
   - coveralls
