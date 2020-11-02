@@ -87,7 +87,7 @@ def test_amphipathic_index_2(sequence2, mocker):
     amphipathic.apply_secondary_structure.return_value = [
         'ccchhhhhhhhhhhhhhhhccccceeccccccccccceeeeeeeeecccccccceeeeccccc'
     ]
-    resume = amphipathic.index(sequence2)
+    resume = amphipathic.index(sequence2, scale="prift")
     assert resume[0] == [
         {
             'type': 'c',

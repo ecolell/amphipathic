@@ -94,17 +94,18 @@ def total_sum_norm(h, mean, begin, end, step):
     return m1 * (f1 * sumtot)
 
 
-def calculate_amphipathic_index(struct):
+def calculate_amphipathic_index(struct, **kwargs):
     angles = {
         'c': (1, 180),
         'e': (100, 160),
         'h': (80, 120),
     }
     seq = struct['seq']
+    hydrophobic_table = hydrophobic.select_table(**kwargs)
     hydrophobic_scores = [
-        hydrophobic.table[aa]
+        hydrophobic_table[aa]
         for aa in seq
-        if aa in hydrophobic.table
+        if aa in hydrophobic_table
     ]
     amount = len(hydrophobic_scores)
     amount = amount if amount > 0 else 1.
@@ -117,8 +118,8 @@ def calculate_amphipathic_index(struct):
     return ai, mean
 
 
-def add_indexes_to_secuence(struct):
-    index, mean = calculate_amphipathic_index(struct)
+def add_indexes_to_secuence(struct, **kwargs):
+    index, mean = calculate_amphipathic_index(struct, **kwargs)
     struct.update(dict(
         amphipathic=dict(
             index=index,
@@ -128,18 +129,18 @@ def add_indexes_to_secuence(struct):
     return struct
 
 
-def index_secondary(seq):
+def index_secondary(seq, **kwargs):
     [
         [
-            add_indexes_to_secuence(aa)
+            add_indexes_to_secuence(aa, **kwargs)
             for aa in protein
         ]
         for protein in seq.resume_secondary()
     ]
 
 
-def index(sequence):
+def index(sequence, **kwargs):
     seq = Sequence(sequence)
     seq.resume_secondary()
-    index_secondary(seq)
+    index_secondary(seq, **kwargs)
     return seq.resume_secondary()

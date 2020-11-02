@@ -50,6 +50,15 @@ resume = amphipathic.index('NLYIQWLKDGGPSSGRPPPS')
 print resume
 ```
 
+or specifing `scale="prift"` from Cornette et al.[1]
+
+```python
+import amphipathic
+resume = amphipathic.index('NLYIQWLKDGGPSSGRPPPS', scale="prift")
+print resume
+```
+
+
 And the result should be:
 
 ```python
