@@ -9,6 +9,6 @@ python:
 install:
   - pip install -r requirements_development.txt
 script:
-  - py.test . -v --cov amphipathic --cov-report term-missing
+  - coverage run --source=amphipathic -m pytest
 after_success:
   - coveralls
