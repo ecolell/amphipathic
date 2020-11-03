@@ -1,3 +1,5 @@
+import pytest
+
 from amphipathic.hydrophobic import cornette
 
 EXPECTED_SCALES = [
@@ -12,3 +14,17 @@ EXPECTED_SCALES = [
 
 def test_get_scales():
     assert cornette.get_scales() == EXPECTED_SCALES
+
+
+EXPECTED_VALUES = [
+    ("1.1", 1.1),
+    ("-2.1", -2.1),
+    ("N", "N"),
+    ("TRUE", True),
+    ("FALSE", False),
+    ("invalid", "invalid"),
+]
+
+@pytest.mark.parametrize("value,expected", EXPECTED_VALUES)
+def test_clean(value, expected):
+    assert cornette.clean(value) == expected

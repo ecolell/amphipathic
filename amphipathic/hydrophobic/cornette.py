@@ -23,17 +23,14 @@ def load(filename):
 ACCEPTED_VALUES = {
     "TRUE": True,
     "FALSE": False,
-    "N": "N"
 }
 
 
 def clean(value):
-    if value in ACCEPTED_VALUES:
-        return ACCEPTED_VALUES[value]
     try:
         return float(value)
-    except TypeError:
-        return value
+    except ValueError:
+        return ACCEPTED_VALUES.get(value, value)
 
 
 @lru_cache(maxsize=None)
