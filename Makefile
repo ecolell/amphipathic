@@ -6,5 +6,5 @@ pypi-register:
 pypi-upload:
 	@ echo "[ uploading    ] package to pypi servers"
 	python setup.py sdist bdist_wheel
-	twine upload dist/amphipathic-0.4.2*
+	twine upload dist/amphipathic-1.0.0*
 	@ echo "[ uploaded     ] the new version was successfully uploaded"
