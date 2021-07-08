@@ -36,7 +36,7 @@ Testing
 
 To test all the project you should use the command:
 
-    $ make test
+    $ pytest tests
 
 
 Example

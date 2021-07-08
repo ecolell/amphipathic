@@ -1,4 +1,4 @@
-requests
+requests[security]
 beautifulsoup4==4.6.3
 pyOpenSSL~=19.0.0
 ndg_httpsclient==0.4.0
