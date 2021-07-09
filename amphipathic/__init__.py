@@ -8,7 +8,8 @@ from math import cos, sin
 
 from Bio import BiopythonWarning, Seq
 
-from amphipathic import secondary_structure, hydrophobic
+from amphipathic import secondary_structure
+from amphipathic.hydrophobic import select_table as select_hydrophobic_table
 
 
 def is_nucleotide(characters):
@@ -101,7 +102,7 @@ def calculate_amphipathic_index(struct, **kwargs):
         'h': (80, 120),
     }
     seq = struct['seq']
-    hydrophobic_table = hydrophobic.select_table(**kwargs)
+    hydrophobic_table = select_hydrophobic_table(**kwargs)
     hydrophobic_scores = [
         hydrophobic_table[aa]
         for aa in seq
