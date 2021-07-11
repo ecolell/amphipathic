@@ -9,7 +9,7 @@ from math import cos, sin
 from Bio import BiopythonWarning, Seq
 
 from amphipathic import secondary_structure
-from amphipathic.hydrophobic import select_table as select_hydrophobic_table
+from amphipathic.hydrophobic.core import select_table as select_hydrophobic_table
 
 
 def is_nucleotide(characters):

@@ -1,4 +1,3 @@
-import enum
 import csv
 from functools import lru_cache
 import os
