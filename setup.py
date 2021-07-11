@@ -42,7 +42,7 @@ setup(
     version=__version__,
     author=u'Eloy Adonis Colell',
     author_email='eloy.colell@gmail.com',
-    packages=['amphipathic', 'amphipathic.hydrophobic', 'amphipathic.data'],
+    packages=['amphipathic', 'amphipathic.hydrophobic', 'amphipathic.hydrophobic.data'],
     url='https://github.com/ecolell/amphipathic',
     license='MIT',
     description=('This is a library to evaluate an aminoacid sequence and '
