@@ -60,4 +60,5 @@ setup(
         "Topic :: Scientific/Engineering :: Information Analysis",
         "Topic :: Scientific/Engineering :: Physics",
     ],
+    include_package_data=True,
 )
