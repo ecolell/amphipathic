@@ -8,7 +8,7 @@ jobs:
     timeout-minutes: 10
     strategy:
       matrix:
-        python-version: [ '3.7', 'pypy-3.7', 'pypy-X', '3.X' ]
+        python-version: [ '3.7.12', ]
     name: Python ${{ matrix.python-version }} sample
     steps:
       - name: Check out repository code
