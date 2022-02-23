@@ -29,7 +29,7 @@ jobs:
       - name: Install dependencies
         if: steps.cache-pipenv.outputs.cache-hit != 'true'
         run: |
-          pipenv --python /opt/hostedtoolcache/Python/3.7.12/x64 install --deploy --dev
+          pipenv install --deploy --dev
       - name: Run test suite
         run: |
           pipenv run test -v
