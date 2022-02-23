@@ -1,7 +1,7 @@
 amphipathic
 ===========
 
-[![License](https://img.shields.io/pypi/l/amphipathic.svg)](https://raw.githubusercontent.com/ecolell/amphipathic/master/LICENSE) [![Downloads](https://img.shields.io/pypi/dm/amphipathic.svg)](https://pypi.python.org/pypi/amphipathic/) [![Build Status](https://travis-ci.org/ecolell/amphipathic.svg?branch=master)](https://travis-ci.org/ecolell/amphipathic) [![Coverage Status](https://coveralls.io/repos/ecolell/amphipathic/badge.png)](https://coveralls.io/r/ecolell/amphipathic) [![PyPI version](https://badge.fury.io/py/amphipathic.svg)](http://badge.fury.io/py/amphipathic)
+[![License](https://img.shields.io/pypi/l/amphipathic.svg)](https://raw.githubusercontent.com/ecolell/amphipathic/master/LICENSE) [![Downloads](https://img.shields.io/pypi/dm/amphipathic.svg)](https://pypi.python.org/pypi/amphipathic/) [![Build Status](https://travis-ci.org/ecolell/amphipathic.svg?branch=master)](https://travis-ci.org/ecolell/amphipathic) [![codecov](https://codecov.io/gh/ecolell/amphipathic/branch/master/graph/badge.svg?token=FPXEECKF05)](https://codecov.io/gh/ecolell/amphipathic) [![PyPI version](https://badge.fury.io/py/amphipathic.svg)](http://badge.fury.io/py/amphipathic)
 
 This library can analyze an aminoacid sequence and gives a list of secondary structures with the respective hydrophobicity mean[1] and amphipathic index[1].
 
