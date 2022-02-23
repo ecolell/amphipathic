@@ -4,9 +4,22 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+requests = {extras = ["security"], version = "*"}
+beautifulsoup4 = "==4.6.3"
+pyopenssl = "~=19.0.0"
+pyasn1 = "*"
+biopython = "*"
+cachetools = "*"
 
 [dev-packages]
 pytest = "*"
+pytest-cov = "*"
+pytest-mock = "*"
+pytest-responses = "*"
+twine = "*"
+bumpversion = "*"
+isort = "*"
+coveralls = "*"
 
 [requires]
 python_version = "3.7.12"
