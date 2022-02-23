@@ -33,7 +33,7 @@ jobs:
       - name: Install dependencies
         if: steps.cache-pipenv.outputs.cache-hit != 'true'
         run: |
-          pipenv install --deploy --dev
+          pipenv --python `which python3` install --deploy --dev
       - name: Run test suite
         run: |
           pipenv run test -v
