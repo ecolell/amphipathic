@@ -147,4 +147,4 @@ Bibliography
 Questions?
 ----------
 
-If you want to develope with us or have questions about this library, please file an issue in this repository so some of the project managers can get back to you. Please check the existing (and closed) issues to make sure your issue hasn't already been addressed.
+If you want to develope with us or have any questions, please file an issue into this repository. Please check the existing (and closed) issues to make sure yours hasn't already been addressed.
