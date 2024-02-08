@@ -84,7 +84,7 @@ jobs:
         cache: 'pip'
     - run: pip install --upgrade pip
     - run: pip install safety
-    - run: safety check --`-r requirements.txt
+    - run: safety check --full-report -r requirements.txt
   test:
     name: test
     runs-on: ${{ matrix.operating-system }}
