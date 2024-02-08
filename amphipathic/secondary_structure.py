@@ -20,7 +20,9 @@ def gor(seq):
     data = {'title': '', 'notice': seq, 'ali_width': len(seq)}
     html = BeautifulSoup(
         requests.post(
-            'https://npsa-prabi.ibcp.fr/cgi-bin/secpred_gor4.pl', data
+            'https://npsa-prabi.ibcp.fr/cgi-bin/secpred_gor4.pl',
+            data,
+            timeout=60,
         ).text,
         'html.parser',
     )
@@ -39,7 +41,12 @@ def jpred(seq):
         'User-Agent': 'libwww-perl/6.38',
         'Content-Type': 'text/txt',
     }
-    res = requests.post(url, data.encode('utf-8'), headers=headers)
+    res = requests.post(
+        url,
+        data.encode('utf-8'),
+        headers=headers,
+        timeout=60,
+    )
     if res.status_code == 202:
         matches = re.search(
             r'(?:href=[\'"])([:/.A-z?<_&\s=>0-9;-]+)',
@@ -53,10 +60,10 @@ def jpred(seq):
         url = 'http://www.compbio.dundee.ac.uk/jpred4/results/{job_id}/{job_id}.jnet'.format(
             job_id=job_id
         )
-        res = requests.get(url)
+        res = requests.get(url, timeout=60)
         while res.status_code == 404:
             time.sleep(10)
-            res = requests.get(url)
+            res = requests.get(url, timeout=60)
         data = res.content.decode('utf-8')
         return (
             data.split('\n')[1]
