@@ -1,0 +1,32 @@
+[tool.poetry]
+name = "amphipathic"
+version = "1.0.11"
+description = ""
+authors = ["eloy <eloy.colell@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+requests = {extras = ["security"], version = "^2.31.0"}
+beautifulsoup4 = "4.6.3"
+pyopenssl = ">=19.0.0,<19.1.0"
+ndg-httpsclient = "0.4.0"
+pyasn1 = "^0.5.1"
+biopython = "^1.83"
+cachetools = "^5.3.2"
+
+
+[tool.poetry.group.dev.dependencies]
+coveralls = "2.1.2"
+bumpversion = "0.5.0"
+isort = "3.9.0"
+pytest = "6.1.1"
+pytest-cov = "2.10.1"
+pytest-mock = "^3.12.0"
+pytest-responses = "^0.5.1"
+responses = "^0.24.1"
+twine = "1.12.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
