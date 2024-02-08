@@ -2,7 +2,7 @@
 name: PyTest
 on: push
 
-jjobs:
+jobs:
   mypy:
     name: mypy
     runs-on: ${{ matrix.operating-system }}
