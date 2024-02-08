@@ -1,0 +1,15 @@
+{
+    // "python.linting.enabled": true,
+    "python.pythonPath": "${env.HOME}/.virtualenvs/a310/bin/python",
+    "javascript.format.insertSpaceBeforeFunctionParenthesis": false,
+    "python.testing.unittestEnabled": false,
+    "terminal.integrated.shell.linux": "/bin/zsh",
+    "terminal.integrated.fontFamily": "MesloLGS NF",
+    "python.testing.nosetestsEnabled": false,
+    "python.testing.pyTestEnabled": true,
+    "python.testing.pyTestArgs": [
+        "--no-cov",
+    ],
+    "python.linting.pylintEnabled": false,
+    "python.formatting.provider": "black"
+}
