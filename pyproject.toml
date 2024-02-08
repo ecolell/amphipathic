@@ -29,6 +29,7 @@ twine = "1.12.1"
 safety = "^3.0.1"
 bandit = "^1.7.7"
 radon = "^6.0.1"
+mypy = "^1.8.0"
 
 [build-system]
 requires = ["poetry-core"]
