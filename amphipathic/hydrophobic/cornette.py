@@ -1,6 +1,7 @@
 import csv
 from functools import lru_cache
 import os
+from typing import Dict, List, Union
 import amphipathic
 
 
@@ -9,7 +10,7 @@ class UnknownScaleError(Exception):
 
 
 @lru_cache(maxsize=None)
-def load(filename):
+def load(filename: str) -> Dict[str, List[str]]:
     complete_path = os.path.join(
         amphipathic.__path__[0], 'hydrophobic', 'data', filename
     )
@@ -24,7 +25,7 @@ ACCEPTED_VALUES = {
 }
 
 
-def clean(value):
+def clean(value: str) -> Union[float, bool, str]:
     try:
         return float(value)
     except ValueError:
@@ -32,7 +33,7 @@ def clean(value):
 
 
 @lru_cache(maxsize=None)
-def load_file(normalized: bool):
+def load_file(normalized: bool) -> Dict[str, List[str]]:
     filename = 'cornette'
     if normalized:
         filename += '_normalized'
@@ -41,7 +42,7 @@ def load_file(normalized: bool):
 
 
 @lru_cache(maxsize=None)
-def load_table(normalized: bool, scale: str):
+def load_table(normalized: bool, scale: str) -> Dict[str, float | bool | str]:
     db = load_file(normalized)
     headers = [head.lower() for head in db['name']]
     try:
@@ -53,34 +54,62 @@ def load_table(normalized: bool, scale: str):
 
 
 @lru_cache(maxsize=None)
-def get_scales(normalized=True):
+def get_scales(normalized: bool = True) -> List[str]:
     db = load_file(normalized)
     return list(db.keys())[1:]
 
 
 @lru_cache(maxsize=None)
-def select_table(normalized=True, scale='PRIFT'):
-    table = load_table(normalized, scale)
-    return {key: value for (key, value) in table.items() if len(key) == 1}
+def select_table(
+    normalized: bool = True, scale: str = 'PRIFT'
+) -> Dict[str, float]:
+    table = load_table(normalized=normalized, scale=scale)
+    return {
+        key: value
+        for (key, value) in table.items()
+        if len(key) == 1 and isinstance(value, float)
+    }
 
 
 @lru_cache(maxsize=None)
-def get_property(normalized=True, scale='PRIFT', property='experimental'):
-    table = load_table(normalized, scale)
+def get_property(
+    normalized: bool = True,
+    scale: str = 'PRIFT',
+    property: str = 'experimental',
+) -> float | bool | str:
+    table = load_table(normalized=normalized, scale=scale)
     return table[property]
 
 
-def is_experimental(normalized=True, scale='PRIFT'):
-    return get_property(normalized, scale, 'experimental')
+def is_experimental(normalized: bool = True, scale: str = 'PRIFT') -> bool:
+    value = get_property(
+        normalized=normalized, scale=scale, property='experimental'
+    )
+    if isinstance(value, bool):
+        return value
+    return False
 
 
-def is_statistical(normalized=True, scale='PRIFT'):
-    return get_property(normalized, scale, 'statistic')
+def is_statistical(normalized: bool = True, scale: str = 'PRIFT') -> bool:
+    value = get_property(
+        normalized=normalized, scale=scale, property='statistic'
+    )
+    if isinstance(value, bool):
+        return value
+    return False
 
 
-def is_average(normalized=True, scale='PRIFT'):
-    return get_property(normalized, scale, 'average')
+def is_average(normalized: bool = True, scale: str = 'PRIFT') -> bool:
+    value = get_property(
+        normalized=normalized, scale=scale, property='average'
+    )
+    if isinstance(value, bool):
+        return value
+    return False
 
 
-def is_owned(normalized=True, scale='PRIFT'):
-    return get_property(normalized, scale, 'own')
+def is_owned(normalized: bool = True, scale: str = 'PRIFT') -> bool:
+    value = get_property(normalized=normalized, scale=scale, property='own')
+    if isinstance(value, bool):
+        return value
+    return False

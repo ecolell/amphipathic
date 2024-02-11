@@ -8,9 +8,14 @@ class Author(enum.Enum):
 
 
 def select_table(
-    author: Author = Author.CORNETTE, **kwargs
+    author: Author = Author.CORNETTE,
+    normalized: bool = True,
+    scale: str = 'PRIFT',
 ) -> Dict[str, float]:
     table = {}
     if author == Author.CORNETTE:
-        table = cornette.select_table(**kwargs)
+        table = cornette.select_table(
+            normalized=normalized,
+            scale=scale,
+        )
     return table

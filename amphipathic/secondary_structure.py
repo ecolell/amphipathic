@@ -15,7 +15,7 @@ class AmphipathicSecondaryStructureError(Exception):
 
 
 @ttl_cache(ttl=10 * 60)
-def gor(seq):
+def gor(seq: str) -> str:
     # It uses the GOR4 service to estimate the secondary structure.
     data = {'title': '', 'notice': seq, 'ali_width': len(seq)}
     html = BeautifulSoup(
@@ -30,7 +30,7 @@ def gor(seq):
 
 
 @ttl_cache(ttl=10 * 60)
-def jpred(seq):
+def jpred(seq: str) -> str:
     url = 'http://www.compbio.dundee.ac.uk/jpred4/cgi-bin/rest/job'
     separator = '£€£€'
     params = ['skipPDB=on', 'format=seq', '>query\n' + seq]
