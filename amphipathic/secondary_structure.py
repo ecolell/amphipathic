@@ -14,32 +14,26 @@ class AmphipathicSecondaryStructureError(Exception):
     pass
 
 
-@ttl_cache(ttl=10*60)
-def gor(seq):
+@ttl_cache(ttl=10 * 60)
+def gor(seq: str) -> str:
     # It uses the GOR4 service to estimate the secondary structure.
-    data = {
-        'title': '',
-        'notice': seq,
-        'ali_width': len(seq)
-    }
-    html = BeautifulSoup(requests.post(
-        'https://npsa-prabi.ibcp.fr/cgi-bin/secpred_gor4.pl',
-        data).text, 'html.parser')
-    return ''.join([
-        f.text
-        for f in html.select('code font')
-    ])
+    data = {'title': '', 'notice': seq, 'ali_width': len(seq)}
+    html = BeautifulSoup(
+        requests.post(
+            'https://npsa-prabi.ibcp.fr/cgi-bin/secpred_gor4.pl',
+            data,
+            timeout=60,
+        ).text,
+        'html.parser',
+    )
+    return ''.join([f.text for f in html.select('code font')])
 
 
-@ttl_cache(ttl=10*60)
-def jpred(seq):
+@ttl_cache(ttl=10 * 60)
+def jpred(seq: str) -> str:
     url = 'http://www.compbio.dundee.ac.uk/jpred4/cgi-bin/rest/job'
     separator = '£€£€'
-    params = [
-        'skipPDB=on',
-        'format=seq',
-        '>query\n' + seq
-    ]
+    params = ['skipPDB=on', 'format=seq', '>query\n' + seq]
     data = separator.join(params)
     headers = {
         #'TE': 'deflate, gzip;q = 0.3',
@@ -50,24 +44,35 @@ def jpred(seq):
     res = requests.post(
         url,
         data.encode('utf-8'),
-        headers=headers
+        headers=headers,
+        timeout=60,
     )
     if res.status_code == 202:
         matches = re.search(
             r'(?:href=[\'"])([:/.A-z?<_&\s=>0-9;-]+)',
-            res.content.decode('utf-8')
+            res.content.decode('utf-8'),
         )
         if not matches:
             # The services doesn't accept the sequence.
             return 'c' * len(seq)
         job_link = matches.group(1)
         job_id = job_link.split('?')[1]
-        url = 'http://www.compbio.dundee.ac.uk/jpred4/results/{job_id}/{job_id}.jnet'.format(job_id=job_id)
-        res = requests.get(url)
+        url = 'http://www.compbio.dundee.ac.uk/jpred4/results/{job_id}/{job_id}.jnet'.format(
+            job_id=job_id
+        )
+        res = requests.get(url, timeout=60)
         while res.status_code == 404:
             time.sleep(10)
-            res = requests.get(url)
+            res = requests.get(url, timeout=60)
         data = res.content.decode('utf-8')
-        return data.split('\n')[1].replace('jnetpred:', '').replace(',', '').lower().replace('-', 'c')
+        return (
+            data.split('\n')[1]
+            .replace('jnetpred:', '')
+            .replace(',', '')
+            .lower()
+            .replace('-', 'c')
+        )
     else:
-        raise AmphipathicSecondaryStructureError('We cannot predict the secondary structure')
+        raise AmphipathicSecondaryStructureError(
+            'We cannot predict the secondary structure'
+        )

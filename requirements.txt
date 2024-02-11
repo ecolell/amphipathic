@@ -1,7 +1,16 @@
-requests[security]
-beautifulsoup4==4.6.3
-pyOpenSSL~=19.0.0
-ndg_httpsclient==0.4.0
-pyasn1
-biopython
-cachetools
+beautifulsoup4==4.6.3 ; python_version >= "3.10" and python_version < "4.0"
+biopython==1.83 ; python_version >= "3.10" and python_version < "4.0"
+cachetools==5.3.2 ; python_version >= "3.10" and python_version < "4.0"
+certifi==2024.2.2 ; python_version >= "3.10" and python_version < "4.0"
+cffi==1.16.0 ; python_version >= "3.10" and python_version < "4.0" and platform_python_implementation != "PyPy"
+charset-normalizer==3.3.2 ; python_version >= "3.10" and python_version < "4.0"
+cryptography==42.0.2 ; python_version >= "3.10" and python_version < "4.0"
+idna==3.6 ; python_version >= "3.10" and python_version < "4.0"
+ndg-httpsclient==0.4.0 ; python_version >= "3.10" and python_version < "4.0"
+numpy==1.26.4 ; python_version >= "3.10" and python_version < "4.0"
+pyasn1==0.5.1 ; python_version >= "3.10" and python_version < "4.0"
+pycparser==2.21 ; python_version >= "3.10" and python_version < "4.0" and platform_python_implementation != "PyPy"
+pyopenssl==19.0.0 ; python_version >= "3.10" and python_version < "4.0"
+requests[security]==2.31.0 ; python_version >= "3.10" and python_version < "4.0"
+six==1.16.0 ; python_version >= "3.10" and python_version < "4.0"
+urllib3==2.2.0 ; python_version >= "3.10" and python_version < "4.0"

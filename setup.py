@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 from setuptools import setup
 import os
-import subprocess
 from setuptools.command import easy_install
 
 
@@ -28,6 +27,7 @@ def get_long_description():
     try:
         easy_install.main(['-U', 'pyandoc==0.0.1'])
         import pandoc
+
         pandoc.core.PANDOC_PATH = 'pandoc'
         doc = pandoc.Document()
         doc.markdown = open(readme_file).read()
@@ -40,25 +40,31 @@ def get_long_description():
 setup(
     name='amphipathic',
     version=__version__,
-    author=u'Eloy Adonis Colell',
+    author='Eloy Adonis Colell',
     author_email='eloy.colell@gmail.com',
-    packages=['amphipathic', 'amphipathic.hydrophobic', 'amphipathic.hydrophobic.data'],
+    packages=[
+        'amphipathic',
+        'amphipathic.hydrophobic',
+        'amphipathic.hydrophobic.data',
+    ],
     url='https://github.com/ecolell/amphipathic',
     license='MIT',
-    description=('This is a library to evaluate an aminoacid sequence and '
-                 'determine an amphipathic index for each alpha helix or '
-                 'beta sheet.'),
+    description=(
+        'This is a library to evaluate an aminoacid sequence and '
+        'determine an amphipathic index for each alpha helix or '
+        'beta sheet.'
+    ),
     long_description=get_long_description(),
-    long_description_content_type="text/markdown",
+    long_description_content_type='text/markdown',
     zip_safe=True,
     install_requires=requirements,
     classifiers=[
-        "Intended Audience :: Science/Research",
-        "Programming Language :: Python",
-        "Programming Language :: Python :: 3.6",
-        "Topic :: Scientific/Engineering :: Bio-Informatics",
-        "Topic :: Scientific/Engineering :: Information Analysis",
-        "Topic :: Scientific/Engineering :: Physics",
+        'Intended Audience :: Science/Research',
+        'Programming Language :: Python',
+        'Programming Language :: Python :: 3.6',
+        'Topic :: Scientific/Engineering :: Bio-Informatics',
+        'Topic :: Scientific/Engineering :: Information Analysis',
+        'Topic :: Scientific/Engineering :: Physics',
     ],
     include_package_data=True,
 )

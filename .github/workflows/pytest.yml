@@ -3,39 +3,133 @@ name: PyTest
 on: push
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
+  mypy:
+    name: mypy
+    runs-on: ${{ matrix.operating-system }}
     strategy:
       matrix:
-        python-version: [ '3.7.12', ]
-    name: Python ${{ matrix.python-version }} sample
+        operating-system: [ubuntu-22.04]
+        python-version: ["3.10"]
     steps:
-      - name: Check out repository code
-        uses: actions/checkout@v2
-
-      # Setup Python (faster than using Python container)
-      - name: Setup Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: ${{ matrix.python-version }}
-          architecture: x64
-
-      - name: Install pipenv
-        run: |
-          python -m pip install --upgrade pipenv wheel
-      - id: cache-pipenv
-        uses: actions/cache@v1
-        with:
-          path: ~/.local/share/virtualenvs
-          key: ${{ runner.os }}-pipenv-${{ hashFiles('**/Pipfile.lock') }}
-
-      - name: Install dependencies
-        if: steps.cache-pipenv.outputs.cache-hit != 'true'
-        run: |
-          pipenv --python `which python3` install --deploy --dev
-      - name: Run test suite
-        run: |
-          pipenv run test -v
-      - name: Upload Coverage to Codecov
-        uses: codecov/codecov-action@v1
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Setup apt packages
+      uses: awalsh128/cache-apt-pkgs-action@latest
+      with:
+        packages: libxml2-dev libxslt1-dev python3-dev
+    - uses: actions/setup-python@v4.5.0
+      with:
+        python-version: ${{ matrix.python-version }}
+        cache: 'pip'
+    - name: Cache dependencies
+      uses: actions/cache@v3.2.4
+      id: cache
+      with:
+        path: ${{ env.pythonLocation }}
+        key: ${{ env.pythonLocation }}-${{ hashFiles('requirements.txt') }}-${{ hashFiles('requirements_development.txt') }}
+    - run: pip install --upgrade pip
+    - run: pip install mypy==v0.812
+    - name: Install dependencies
+      if: steps.cache.outputs.cache-hit != 'true'
+      run: pip install -r requirements.txt -r requirements_development.txt
+    - run: make check-mypy
+  quality:
+    name: quality
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      matrix:
+        operating-system: [ubuntu-22.04]
+        python-version: ["3.10"]
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    - uses: actions/setup-python@v4.5.0
+      with:
+        python-version: ${{ matrix.python-version }}
+        cache: 'pip'
+    - run: pip install --upgrade pip
+    - run: pip install radon
+    - run: radon cc -nb -a amphipathic
+  security:
+    name: security
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      matrix:
+        operating-system: [ubuntu-22.04]
+        python-version: ["3.10"]
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    - uses: actions/setup-python@v4.5.0
+      with:
+        python-version: ${{ matrix.python-version }}
+        cache: 'pip'
+    - run: pip install --upgrade pip
+    - run: pip install bandit
+    - run: bandit -r amphipathic/* -x tests
+  safety:
+    name: safety
+    runs-on: ${{ matrix.operating-system }}
+    continue-on-error: true
+    strategy:
+      matrix:
+        operating-system: [ubuntu-22.04]
+        python-version: ["3.10"]
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    - uses: actions/setup-python@v4.5.0
+      with:
+        python-version: ${{ matrix.python-version }}
+        cache: 'pip'
+    - run: pip install --upgrade pip
+    - run: pip install safety
+    - run: safety check --full-report -r requirements.txt
+  test:
+    name: test
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      matrix:
+        operating-system: [ubuntu-22.04]
+        python-version: ["3.10"]
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    - uses: actions/setup-python@v4.5.0
+      with:
+        python-version: ${{ matrix.python-version }}
+        cache: 'pip'
+    - name: Cache dependencies
+      uses: actions/cache@v3.2.4
+      id: cache
+      with:
+        path: ${{ env.pythonLocation }}
+        key: ${{ env.pythonLocation }}-${{ hashFiles('requirements.txt') }}-${{ hashFiles('requirements_development.txt') }}
+    - run: pip install --upgrade pip
+    - name: Install dependencies
+      if: steps.cache.outputs.cache-hit != 'true'
+      run: pip install -r requirements.txt -r requirements_development.txt
+    - name: Install plugin
+      run: pip install pytest-github-actions-annotate-failures
+    - name: Run tests
+      run: PYVERSION=${{ matrix.python-version }} make pipeline-test
+    - name: Upload pytest test results
+      uses: actions/upload-artifact@v3
+      with:
+        name: pytest-results
+        path: pytest${{ matrix.python-version }}.xml
+      # Use always() to always run this step to publish test results when there are test failures
+      if: ${{ always() }}
+    - name: Publish Test Results
+      uses: EnricoMi/publish-unit-test-result-action/composite@v2
+      if: always()
+      with:
+        files: |
+          pytest${{ matrix.python-version }}.xml
+    # - name: Coverage comment
+    #  uses: MishaKav/pytest-coverage-comment@main
+    #  with:
+    #    pytest-coverage-path: pytest-coverage.txt
+    #    junitxml-path: pytest.xml
+    - name: Upload Coverage to Codecov
+      uses: codecov/codecov-action@v1

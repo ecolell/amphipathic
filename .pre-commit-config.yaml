@@ -1,0 +1,46 @@
+repos:
+-   repo: https://github.com/pycqa/bandit.git
+    rev: '1.7.5'
+    hooks:
+    -   id: bandit
+        language_version: python3.10
+        entry: bash -c 'make check-bandit'
+-   repo: https://github.com/pre-commit/mirrors-mypy
+    rev: 'v1.8.0'  # Use the sha / tag you want to point at
+    hooks:
+        -   id: mypy
+            language_version: python3.10
+            entry: bash -c 'make check-mypy'
+            additional_dependencies:
+                -   'mypy-extensions'
+                -   'typing-extensions'
+                -   'types-requests'
+                -   'types-cachetools'
+                # -   'sqlalchemy-stubs==0.4'
+                # -   'pydantic[email]==1.10.13'
+                # -   'types-redis==4.5.4.1'
+                # -   'types_Werkzeug==1.0.9'
+                # -   'types_python_dateutil==2.8.19.6'
+-   repo: https://github.com/pycqa/flake8.git
+    rev: '4.0.1'
+    hooks:
+        -   id: flake8
+            args: ["-j8", "--select=T201"]
+            additional_dependencies: [
+                'flake8-print==4.0.1',
+            ]
+-   repo: https://github.com/PyCQA/autoflake.git
+    rev: v1.4
+    hooks:
+    -   id: autoflake
+        args: ['--in-place', '--expand-star-imports', '--ignore-init-module-imports', '--remove-all-unused-imports', '--remove-unused-variable']
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.1.0
+    hooks:
+    -   id: check-yaml
+    -   id: check-merge-conflict
+    -   id: detect-private-key
+-   repo: https://github.com/grantjenks/blue.git
+    rev: 0e9f225963754cbc29449d9d220ac89b1026b0bc
+    hooks:
+        -   id: blue

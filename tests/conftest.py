@@ -1,2 +1,2 @@
-from tests.fixtures.base import *
-from tests.fixtures.sequences import *
+from .fixtures.base import *  # flake8: noqa
+from .fixtures.sequences import *  # flake8: noqa
